@@ -1,5 +1,4 @@
-
-const CACHE_NAME = 'vc-chapai-v1';
+const CACHE_NAME = 'vc-chapai-v2'; // Updated version
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -17,12 +16,14 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
+// Force refresh: Clear ALL old caches on activation
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -33,25 +34,31 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Only handle GET requests
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
     caches.match(event.request).then((response) => {
       if (response) {
-        // Return cached response, but update in background
+        // Network-first logic to ensure we get new code if online
         fetch(event.request).then((networkResponse) => {
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, networkResponse.clone());
-          });
-        }).catch(() => {}); // Silently fail if offline
+          if (networkResponse && networkResponse.status === 200) {
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, networkResponse.clone());
+            });
+          }
+        }).catch(() => {});
         return response;
       }
       return fetch(event.request).then((networkResponse) => {
-        return caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
+        if (!networkResponse || networkResponse.status !== 200) return networkResponse;
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
         });
+        return networkResponse;
       });
     }).catch(() => {
-      // Offline fallback for navigation requests
       if (event.request.mode === 'navigate') {
         return caches.match('/index.html');
       }
