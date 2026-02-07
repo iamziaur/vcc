@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { TRANSLATIONS, SEATS, EMERGENCY_CONTACTS, GUIDANCE_OFFICERS, DISTRICT_TOTAL_STATS } from './constants';
 import { Language, Seat, SeatStatsData } from './types';
@@ -97,15 +96,23 @@ const SummaryBox: React.FC<{ stats: SeatStatsData; centersCount: number; lang: L
 // --- PWA Installation Banner ---
 
 const InstallBanner: React.FC<{ deferredPrompt: any; onInstall: () => void; lang: Language }> = ({ deferredPrompt, onInstall, lang }) => {
-  if (!deferredPrompt) return null;
+  const [isVisible, setIsVisible] = useState(true);
+  if (!deferredPrompt || !isVisible) return null;
   const t = (key: string) => TRANSLATIONS[key][lang];
   return (
     <div className="fixed bottom-4 left-4 right-4 z-[100] animate-in slide-in-from-bottom-8 duration-500">
-      <div className="bg-bd-green text-white p-3 rounded-2xl shadow-2xl border-2 border-white/20 flex items-center justify-between gap-2">
-        <h4 className="text-[12px] font-black leading-tight flex-1">{t('install_app')}</h4>
+      <div className="bg-bd-green text-white p-3 rounded-2xl shadow-2xl border-2 border-white/20 flex items-center justify-between gap-2 relative">
+        <button 
+          onClick={() => setIsVisible(false)}
+          className="absolute -top-2 -right-2 w-6 h-6 bg-bd-red rounded-full flex items-center justify-center text-[10px] border-2 border-white shadow-md z-10"
+          aria-label="Close"
+        >
+          <i className="fa-solid fa-xmark"></i>
+        </button>
+        <h4 className="text-[11px] font-black leading-tight flex-1 pr-3">{t('install_app')}</h4>
         <button 
           onClick={onInstall}
-          className="bg-bd-red text-white px-4 py-1.5 rounded-xl text-[10px] font-black uppercase shadow-lg active:scale-95 transition shrink-0"
+          className="bg-white text-bd-green px-4 py-1.5 rounded-xl text-[10px] font-black uppercase shadow-lg active:scale-95 transition shrink-0"
         >
           {t('install_btn')}
         </button>
@@ -498,16 +505,6 @@ export default function App() {
       />
       
       <main className="max-w-xl mx-auto px-3 pt-4">
-        {!navigator.onLine && (
-          <div className="mb-4 p-3 bg-amber-50 dark:bg-amber-900/30 text-amber-900 dark:text-amber-200 rounded-xl text-center text-[10px] font-black border border-amber-200 shadow-sm flex flex-col items-center justify-center gap-1.5 leading-relaxed">
-            <div className="flex items-center gap-2 text-bd-red">
-              <i className="fa-solid fa-wifi-slash animate-pulse"></i>
-              <span>{t('offline_warning')}</span>
-            </div>
-            <p>{t('offline_detail')}</p>
-          </div>
-        )}
-
         <div className="mb-4 p-3 bg-bd-red text-white rounded-xl shadow-md relative overflow-hidden flex items-center justify-between">
           <div className="relative z-10">
             <h2 className="text-xs font-black mb-0.5">{t('title')}</h2>
