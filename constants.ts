@@ -37,7 +37,7 @@ export const TRANSLATIONS: Translation = {
   election_date: { bn: 'নির্বাচনের তারিখ', en: 'Election Date' },
   secret_rooms: { bn: 'গোপন কক্ষ', en: 'Secret Rooms' },
   district_total: { bn: 'চাঁপাইনবাবগঞ্জ জেলা (সর্বমোট)', en: 'Chapainawabganj District (Total)' },
-  favorites: { bn: 'আমার সেন্টার', en: 'My Center' },
+  favorites: { bn: 'আমার ইউনিয়ন/থানা', en: 'My Union/MyPS' },
   no_favorites: { bn: '⭐ প্রিয় তালিকায় থানা বা ইউনিয়ন যোগ করা হয়নি', en: 'No Thana or Union added to favorites' },
   app_usage_header: { bn: 'অ্যাপ ব্যবহার নির্দেশনা :', en: 'App Usage Instructions:' },
   map_usage_tip: { 
