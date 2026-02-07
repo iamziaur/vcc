@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { TRANSLATIONS, SEATS, EMERGENCY_CONTACTS, GUIDANCE_OFFICERS, DISTRICT_TOTAL_STATS } from './constants';
 import { Language, Seat, SeatStatsData } from './types';
@@ -100,19 +101,11 @@ const InstallBanner: React.FC<{ deferredPrompt: any; onInstall: () => void; lang
   const t = (key: string) => TRANSLATIONS[key][lang];
   return (
     <div className="fixed bottom-4 left-4 right-4 z-[100] animate-in slide-in-from-bottom-8 duration-500">
-      <div className="bg-bd-green text-white p-4 rounded-2xl shadow-2xl border-2 border-white/20 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
-            <i className="fa-solid fa-mobile-screen-button text-xl"></i>
-          </div>
-          <div>
-            <h4 className="text-[11px] font-black leading-tight">{t('install_app')}</h4>
-            <p className="text-[9px] opacity-80 leading-tight">{t('install_detail')}</p>
-          </div>
-        </div>
+      <div className="bg-bd-green text-white p-3 rounded-2xl shadow-2xl border-2 border-white/20 flex items-center justify-between gap-2">
+        <h4 className="text-[12px] font-black leading-tight flex-1">{t('install_app')}</h4>
         <button 
           onClick={onInstall}
-          className="bg-bd-red text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase shadow-lg active:scale-95 transition"
+          className="bg-bd-red text-white px-4 py-1.5 rounded-xl text-[10px] font-black uppercase shadow-lg active:scale-95 transition shrink-0"
         >
           {t('install_btn')}
         </button>
@@ -140,7 +133,6 @@ const LoginGate: React.FC<{
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start p-4 bg-slate-50 dark:bg-slate-950 overflow-y-auto pt-16 pb-12 relative">
-      {/* Login Page Toggles */}
       <div className="absolute top-4 right-4 flex items-center gap-2">
         <button 
           onClick={() => setLang(lang === 'bn' ? 'en' : 'bn')} 
@@ -157,10 +149,7 @@ const LoginGate: React.FC<{
       </div>
 
       <div className="max-w-md w-full space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
-        
-        {/* Main Login Card */}
         <div className="glass-card p-6 rounded-3xl shadow-xl border-t-8 border-bd-green text-center relative overflow-hidden">
-          {/* Official Bangladesh Police Logo */}
           <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white dark:border-slate-800 shadow-xl bg-white flex items-center justify-center p-1">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/7/75/Bangladesh_Police_Emblem.svg" 
@@ -255,13 +244,11 @@ const LoginGate: React.FC<{
           </form>
         </div>
 
-        {/* Statistical Overview */}
         <div className="space-y-3">
           <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-2">{t('district_stats')}</h3>
           <SummaryBox stats={DISTRICT_TOTAL_STATS} centersCount={515} lang={lang} />
         </div>
 
-        {/* Usage Instructions */}
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm border-l-4 border-l-bd-red">
           <h3 className="text-[11px] font-black text-bd-red uppercase tracking-tight flex items-center gap-1.5 mb-2">
             <i className="fa-solid fa-circle-info"></i>
@@ -272,7 +259,6 @@ const LoginGate: React.FC<{
           </p>
         </div>
 
-        {/* Guidance Leadership */}
         <div className="space-y-3">
           <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-2">{t('guidance')}</h3>
           <div className="grid grid-cols-1 gap-2">
@@ -457,6 +443,7 @@ export default function App() {
     if (password === 'mrm2022') {
       setIsLoggedIn(true);
       localStorage.setItem('auth', 'true');
+      setLoginError('');
     } else {
       const newCount = failedAttempts + 1;
       setFailedAttempts(newCount);
@@ -532,7 +519,6 @@ export default function App() {
           <i className="fa-solid fa-shield-halved text-4xl opacity-15 rotate-12 absolute -right-2 top-2"></i>
         </div>
 
-        {/* Dashboard Usage Instruction Box */}
         <div className="mb-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm border-l-4 border-l-bd-red animate-in fade-in slide-in-from-top-2 duration-500">
           <h3 className="text-[11px] font-black text-bd-red uppercase tracking-tight flex items-center gap-1.5 mb-2">
             <i className="fa-solid fa-circle-info"></i>
@@ -543,7 +529,6 @@ export default function App() {
           </p>
         </div>
 
-        {/* Global Stats or Per-Seat Stats */}
         <section>
           <div className="space-y-6">
             {showTotalStats && (
@@ -599,7 +584,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Emergency Section */}
         <section className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
           <h3 className="text-xs font-black text-slate-900 dark:text-white mb-3 flex items-center gap-1.5">
             <i className="fa-solid fa-phone-volume text-bd-red"></i>
@@ -632,7 +616,6 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Global Install Prompt if not installed */}
       <InstallBanner deferredPrompt={deferredPrompt} onInstall={handleInstall} lang={lang} />
     </div>
   );
