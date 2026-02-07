@@ -1,3 +1,4 @@
+
 import { Seat, Contact, Translation, SeatStatsData } from './types';
 
 export const TRANSLATIONS: Translation = {
@@ -37,7 +38,7 @@ export const TRANSLATIONS: Translation = {
   election_date: { bn: 'নির্বাচনের তারিখ', en: 'Election Date' },
   secret_rooms: { bn: 'গোপন কক্ষ', en: 'Secret Rooms' },
   district_total: { bn: 'চাঁপাইনবাবগঞ্জ জেলা (সর্বমোট)', en: 'Chapainawabganj District (Total)' },
-  favorites: { bn: 'আমার ইউনিয়ন/থানা', en: 'My Union/MyPS' },
+  favorites: { bn: 'আমার ইউনিয়ন/থানা', en: 'My Union/Thana' },
   no_favorites: { bn: '⭐ প্রিয় তালিকায় থানা বা ইউনিয়ন যোগ করা হয়নি', en: 'No Thana or Union added to favorites' },
   app_usage_header: { bn: 'অ্যাপ ব্যবহার নির্দেশনা :', en: 'App Usage Instructions:' },
   map_usage_tip: { 
@@ -55,9 +56,9 @@ export const TRANSLATIONS: Translation = {
     en: '© 2026 Chapainawabganj District Police' 
   },
   support_text: { bn: '[MRM WEB APP]', en: '[MRM WEB APP]' },
-  install_app: { bn: 'অ্যাপটি ফোনে ইনস্টল করুন', en: 'Install App on Phone' },
-  install_detail: { bn: 'ইন্সটল করলেই অফলাইনেও সব তথ্য দেখা যাবে।', en: 'Install to access all info offline.' },
-  install_btn: { bn: 'ইন্সটল', en: 'Install' },
+  install_app: { bn: 'অ্যাপটি আপনার ফোনে ইনসটল করুন।', en: 'Install this app on your phone.' },
+  install_detail: { bn: '', en: '' },
+  install_btn: { bn: 'ইনসটল', en: 'Install' },
   favorites_tip: { 
     bn: 'আপনার প্রয়োজনীয় কেন্দ্রগুলো আসন ১, ২, ৩ থেকে ⭐ ক্লিক করে যোগ করুন।', 
     en: 'Add your required centers from Seat 1, 2, or 3 by clicking ⭐.' 
