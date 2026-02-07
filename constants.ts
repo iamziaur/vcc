@@ -55,7 +55,7 @@ export const TRANSLATIONS: Translation = {
     en: '© 2026 Chapainawabganj District Police' 
   },
   support_text: { bn: '[MRM WEB APP]', en: '[MRM WEB APP]' },
-  install_app: { bn: 'অ্যাপটি আপনার ফোনে ইনসটল করুন।', en: 'Install this app on your phone.' },
+  install_app: { bn: 'অ্যাপটি আপনার ডিভাইসে ইন্সটল করুন। ঐচ্ছিক Optional', en: 'Install this app on your device. Optional' },
   install_detail: { bn: '', en: '' },
   install_btn: { bn: 'ইনসটল', en: 'Install' },
   favorites_tip: { 
