@@ -193,6 +193,6 @@ export const EMERGENCY_CONTACTS: Contact[] = [
 
 export const GUIDANCE_OFFICERS: Contact[] = [
   { name: 'গৌতম কুমার বিশ্বাস', nameEn: 'Gautam Kumar Biswas', designation: 'পুলিশ সুপার, চাঁপাইনবাবগঞ্জ', designationEn: 'Police Super, Chapainawabganj', phone: '+8801320125500', link: 'https://police.chapainawabganj.gov.bd/bn/site/view/OfficerList', isOfficer: true },
-  { name: 'মোঃ ইয়াসির আরাফাত', nameEn: 'Md. Yasir Arafat', designation: 'অতিরিক্ত পুলিশ সুপার (সদর সার্কেল)', designationEn: 'Addl. SP (Sadar Circle)', phone: '01320125544', link: 'https://police.chapainawabganj.gov.bd/bn/site/officer_list/%E0%A6%AE%E0%A7%8B%E0%A6%83-%E0%A6%87%E0%A7%9F%E0%A6%BE%E0%A6%B8%E0%A6%BF%E0%A6%B0-%E0%A6%86%E0%A6%B0%E0%A6%AB%E0%A6%BE%E0%A6%A4', isOfficer: true },
-  { name: 'মোঃ হাসান তারেক', nameEn: 'Md. Hasan Tareq', designation: 'অতিরিক্ত পুলিশ সুপার (গোমস্তাপুর সার্কেল)', designationEn: 'Addl. SP (Gomostapur Circle)', phone: '01320125549', link: 'https://police.chapainawabganj.gov.bd/bn/site/officer_list/%E0%A6%AE%E0%A7%8B%E0%A6%83-%E0%A6%89%E0%A6%B9%E0%A6%BE%E0%A6%B8%E0%A6%BE%E0%A6%A8-%E0%A6%A4%E0%A6%BE%E0%A6%B0%E0%A7%87%E0%A6%96', isOfficer: true },
+  { name: 'মোঃ ইয়াসির আরাফাত', nameEn: 'Md. Yasir Arafat', designation: 'অতিরিক্ত পুলিশ সুপার (সদর সার্কেল)', designationEn: 'Addl. SP (Sadar Circle)', phone: '01320125544', link: 'https://police.chapainawabganj.gov.bd/bn/site/view/OfficerList', isOfficer: true },
+  { name: 'মোঃ হাসান তারেক', nameEn: 'Md. Hasan Tareq', designation: 'অতিরিক্ত পুলিশ সুপার (গোমস্তাপুর সার্কেল)', designationEn: 'Addl. SP (Gomostapur Circle)', phone: '01320125549', link: 'https://police.chapainawabganj.gov.bd/bn/site/view/OfficerList', isOfficer: true },
 ];
