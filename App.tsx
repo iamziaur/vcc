@@ -4,24 +4,31 @@ import { Language, Seat, SeatStatsData } from './types';
 
 // --- Shared Utility Components ---
 
-const ContactRow: React.FC<{ contact: any; lang: Language }> = ({ contact, lang }) => {
+const ContactRow: React.FC<{ contact: any; lang: Language; isLarge?: boolean }> = ({ contact, lang, isLarge }) => {
   const name = lang === 'bn' ? contact.name : contact.nameEn;
   const des = lang === 'bn' ? contact.designation : contact.designationEn;
   
   return (
-    <div className="glass-card p-2 rounded-xl flex items-center justify-between shadow-sm border">
-      <div className="flex-1 pr-2 overflow-hidden">
-        <h4 className="font-black text-slate-900 dark:text-slate-100 text-[10px] leading-tight truncate">{name}</h4>
-        <p className="text-[8px] font-bold text-slate-500 dark:text-slate-400 italic leading-tight truncate">{des}</p>
+    <div className={`glass-card rounded-2xl flex items-center justify-between shadow-md border ${isLarge ? 'p-4 border-l-4 border-l-bd-green' : 'p-2'}`}>
+      <div className="flex-1 pr-3 overflow-hidden">
+        <h4 className={`font-black text-slate-900 dark:text-slate-100 leading-tight truncate ${isLarge ? 'text-sm sm:text-base' : 'text-[10px]'}`}>
+          {name}
+        </h4>
+        <p className={`font-bold text-slate-500 dark:text-slate-400 italic leading-tight truncate mt-0.5 ${isLarge ? 'text-[11px] sm:text-xs' : 'text-[8px]'}`}>
+          {des}
+        </p>
+        {isLarge && (
+           <p className="text-bd-green font-black text-xs mt-1 tabular-nums">{contact.phone}</p>
+        )}
       </div>
-      <div className="flex gap-1 shrink-0">
+      <div className="flex gap-2 shrink-0">
         {contact.link && (
-          <a href={contact.link} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center border border-blue-100 dark:border-blue-800">
-            <i className="fa-solid fa-circle-info text-[9px]"></i>
+          <a href={contact.link} target="_blank" rel="noopener noreferrer" className={`${isLarge ? 'w-10 h-10' : 'w-7 h-7'} rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center border border-blue-100 dark:border-blue-800 transition-transform active:scale-90 shadow-sm`}>
+            <i className={`fa-solid fa-circle-info ${isLarge ? 'text-xs' : 'text-[9px]'}`}></i>
           </a>
         )}
-        <a href={`tel:${contact.phone}`} className="w-7 h-7 rounded-full bg-green-50 dark:bg-green-900/20 text-bd-green dark:text-green-400 flex items-center justify-center border border-green-100 dark:border-green-800">
-          <i className="fa-solid fa-phone-alt text-[9px]"></i>
+        <a href={`tel:${contact.phone}`} className={`${isLarge ? 'w-12 h-12 bg-bd-green text-white shadow-bd-green/20' : 'w-7 h-7 bg-green-50 text-bd-green'} rounded-full flex items-center justify-center border border-green-100 dark:border-green-800 transition-all active:scale-95 shadow-lg`}>
+          <i className={`fa-solid fa-phone-alt ${isLarge ? 'text-lg' : 'text-[9px]'}`}></i>
         </a>
       </div>
     </div>
@@ -280,6 +287,7 @@ const LoginGate: React.FC<{
         </div>
       </div>
 
+      {/* FIX: Use 'onInstall' prop instead of 'handleInstall' which is not in this scope */}
       <InstallBanner deferredPrompt={deferredPrompt} onInstall={onInstall} lang={lang} />
     </div>
   );
@@ -582,12 +590,12 @@ export default function App() {
         </section>
 
         <section className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
-          <h3 className="text-xs font-black text-slate-900 dark:text-white mb-3 flex items-center gap-1.5">
-            <i className="fa-solid fa-phone-volume text-bd-red"></i>
+          <h3 className="text-sm font-black text-slate-900 dark:text-white mb-4 flex items-center gap-2 uppercase tracking-tight">
+            <i className="fa-solid fa-phone-volume text-bd-red text-lg"></i>
             {t('emergency')}
           </h3>
-          <div className="grid grid-cols-1 gap-1.5 mb-6">
-            {EMERGENCY_CONTACTS.map((c, i) => <ContactRow key={i} contact={c} lang={lang} />)}
+          <div className="grid grid-cols-1 gap-3 mb-8">
+            {EMERGENCY_CONTACTS.map((c, i) => <ContactRow key={i} contact={c} lang={lang} isLarge={true} />)}
           </div>
 
           <h3 className="text-[10px] font-black text-slate-500 dark:text-slate-400 mb-3 uppercase tracking-widest">{t('guidance')}</h3>
