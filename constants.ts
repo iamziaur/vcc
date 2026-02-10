@@ -164,7 +164,7 @@ export const SEATS: Seat[] = [
     },
     areas: [
       { id: '3-0', name: 'চাঁপাইনবাবগঞ্জ পৌরসভা', nameEn: 'Sadar Municipality', url: 'https://www.google.com/maps/d/u/0/embed?mid=1qkM_nGSk4ER2M3Rw3USjj3sVJG_D_l0' },
-      { id: '3-1', name: 'বালিয়াডাঙ্গা ইউনিয়ন', nameEn: 'Baliadanga Union', url: 'https://www.google.com/maps/d/u/1/embed?mid=142CPpgVWP_Il0LZUXRYX7Of7Kfy8D4' },
+      { id: '3-1', name: 'বালিয়াডাঙ্গা ইউনিয়ন', nameEn: 'Baliadanga Union', url: 'https://www.google.com/maps/d/embed?mid=142CPpgVWP_Il0LZUqXRYX7Of7Kfy8D4&ehbc=2E312F' },
       { id: '3-2', name: 'গোবরাতলা ইউনিয়ন', nameEn: 'Gobratala Union', url: 'https://www.google.com/maps/d/u/2/embed?mid=1K4q14cGGROHwLyPtQI9UBj92XNXU1YI' },
       { id: '3-3', name: 'ঝিলিম ইউনিয়ন', nameEn: 'Jhilim Union', url: 'https://www.google.com/maps/d/u/1/embed?mid=1tmHvqfNwf0I6uQbZaHQVH1J7GtWNVy4' },
       { id: '3-4', name: 'বারোঘরিয়া ইউনিয়ন', nameEn: 'Baroghoria Union', url: 'https://www.google.com/maps/d/u/1/embed?mid=18lsj2NdGO7rP9ztQjzrSWIwvKOQHqCI' },
