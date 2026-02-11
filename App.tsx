@@ -1,6 +1,70 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { TRANSLATIONS, SEATS, EMERGENCY_CONTACTS, GUIDANCE_OFFICERS, DISTRICT_TOTAL_STATS } from './constants';
 import { Language, Seat, SeatStatsData } from './types';
+// --- Countdown Clock Component ---
+
+const CountdownClock: React.FC<{ lang: Language }> = ({ lang }) => {
+  const [timeLeft, setTimeLeft] = useState({ h: '00', m: '00', s: '00' });
+
+  useEffect(() => {
+    const calculateTime = () => {
+      const now = new Date();
+      // Target: 12 February 2026 at 07:30 AM
+      const target = new Date(2026, 1, 12, 7, 30, 0);
+
+      const diff = target.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        setTimeLeft({ h: '00', m: '00', s: '00' });
+        return;
+      }
+
+      // Calculate total hours, minutes, seconds remaining
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+      const format = (n: number) => {
+        const str = n.toString().padStart(2, '0');
+        return lang === 'bn' ? str.replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[parseInt(d)]) : str;
+      };
+
+      setTimeLeft({ h: format(h), m: format(m), s: format(s) });
+    };
+
+    calculateTime();
+    const timer = setInterval(calculateTime, 1000);
+    return () => clearInterval(timer);
+  }, [lang]);
+
+  return (
+    <div className="flex flex-col items-end mb-4 animate-in fade-in slide-in-from-right-4 duration-700">
+      <img 
+        src="https://election.prothomalo.com/web-theme/prothomalo.svg" 
+        alt="Election Logo" 
+        className="h-6 sm:h-8 mb-1 grayscale dark:invert opacity-80"
+      />
+      <div className="flex flex-col items-end">
+        <div className="flex gap-1 items-center">
+          <div className="bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 px-1.5 py-0.5 rounded text-[11px] font-black tabular-nums">
+            {timeLeft.h}
+          </div>
+          <span className="text-slate-400 font-black text-[10px]">:</span>
+          <div className="bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 px-1.5 py-0.5 rounded text-[11px] font-black tabular-nums">
+            {timeLeft.m}
+          </div>
+          <span className="text-slate-400 font-black text-[10px]">:</span>
+          <div className="bg-bd-red text-white px-1.5 py-0.5 rounded text-[11px] font-black animate-pulse-soft tabular-nums">
+            {timeLeft.s}
+          </div>
+        </div>
+        <p className="text-[9px] font-bold text-slate-500 dark:text-slate-400 mt-1">
+          {lang === 'bn' ? 'ভোট শুরু হবে ১২ ফেব্রুয়ারি সকাল ০৭:৩০ ঘটিকায়।' : 'Voting starts Feb 12 at 07:30 AM.'}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 // --- Shared Utility Components ---
 
