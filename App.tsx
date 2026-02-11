@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { TRANSLATIONS, SEATS, EMERGENCY_CONTACTS, GUIDANCE_OFFICERS, DISTRICT_TOTAL_STATS } from './constants';
 import { Language, Seat, SeatStatsData } from './types';
+
 // --- Countdown Clock Component ---
 
 const CountdownClock: React.FC<{ lang: Language }> = ({ lang }) => {
