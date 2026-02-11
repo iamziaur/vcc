@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { TRANSLATIONS, SEATS, EMERGENCY_CONTACTS, GUIDANCE_OFFICERS, DISTRICT_TOTAL_STATS } from './constants';
 import { Language, Seat, SeatStatsData } from './types';
@@ -352,7 +353,6 @@ const LoginGate: React.FC<{
         </div>
       </div>
 
-      {/* FIX: Use 'onInstall' prop instead of 'handleInstall' which is not in this scope */}
       <InstallBanner deferredPrompt={deferredPrompt} onInstall={onInstall} lang={lang} />
     </div>
   );
@@ -578,6 +578,9 @@ export default function App() {
       />
       
       <main className="max-w-xl mx-auto px-3 pt-4">
+        {/* New Countdown Clock Section */}
+        <CountdownClock lang={lang} />
+
         <div className="mb-4 p-3 bg-bd-red text-white rounded-xl shadow-md relative overflow-hidden flex items-center justify-between">
           <div className="relative z-10">
             <h2 className="text-xs font-black mb-0.5">{t('title')}</h2>
