@@ -1,7 +1,33 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { TRANSLATIONS, SEATS, EMERGENCY_CONTACTS, GUIDANCE_OFFICERS, DISTRICT_TOTAL_STATS } from './constants';
 import { Language, Seat, SeatStatsData } from './types';
+
+// --- Live Status Component ---
+
+const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
+  return (
+    <div className="flex flex-col items-end mb-4 animate-in fade-in slide-in-from-right-4 duration-700">
+      <img 
+        src="https://election.prothomalo.com/web-theme/prothomalo.svg" 
+        alt="Election Logo" 
+        className="h-6 sm:h-8 mb-1 grayscale dark:invert opacity-80"
+      />
+      <div className="flex flex-col items-end">
+        <div className="flex gap-2 items-center bg-slate-100 dark:bg-slate-800/50 px-2 py-1 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">
+          <div className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bd-red opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-bd-red"></span>
+          </div>
+          <span className="text-[10px] font-black text-bd-red uppercase tracking-wider">LIVE</span>
+        </div>
+        <p className="text-[10px] font-black text-slate-700 dark:text-slate-300 mt-1 flex items-center gap-1">
+          <i className="fa-solid fa-check-to-slot text-bd-green"></i>
+          {lang === 'bn' ? 'ভোট গ্রহণ চলছে' : 'Voting is live'}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 // --- Shared Utility Components ---
 
@@ -513,8 +539,8 @@ export default function App() {
       />
       
       <main className="max-w-xl mx-auto px-3 pt-4">
-        {/* New Countdown Clock Section */}
-        <CountdownClock lang={lang} />
+        {/* Replaced Countdown with Live Status */}
+        <LiveStatus lang={lang} />
 
         <div className="mb-4 p-3 bg-bd-red text-white rounded-xl shadow-md relative overflow-hidden flex items-center justify-between">
           <div className="relative z-10">
