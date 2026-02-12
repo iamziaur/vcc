@@ -28,7 +28,7 @@ const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
           const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
           const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
           const cdStr = `${h}:${m}:${s}`;
-          setCountdown(lang === 'bn' ? cdStr.replace(/\d/g, d => 'à§¦à§§à§¨à§©à§ªà§«à§¬à§­à§®à§¯'[parseInt(d)]) : cdStr);
+          setCountdown(lang === 'bn' ? cdStr.replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[parseInt(d)]) : cdStr);
         } else {
           setCountdown('');
         }
@@ -42,7 +42,7 @@ const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
     const m = date.getMinutes().toString().padStart(2, '0');
     const s = date.getSeconds().toString().padStart(2, '0');
     const timeStr = `${h}:${m}:${s}`;
-    return lang === 'bn' ? timeStr.replace(/\d/g, d => 'à§¦à§§à§¨à§©à§ªà§«à§¬à§­à§®à§¯'[parseInt(d)]) : timeStr;
+    return lang === 'bn' ? timeStr.replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[parseInt(d)]) : timeStr;
   };
 
   return (
@@ -78,7 +78,7 @@ const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
               <i className="fa-solid fa-square-poll-vertical text-bd-green group-hover:animate-bounce"></i>
               <span className="text-[10px] sm:text-[11px] font-black text-slate-700 dark:text-slate-300">
                 {lang === 'bn' 
-                  ? 'à¦¨à¦¿à¦°à§à¦¬à¦¾à¦šà¦¨à§‡à¦° à¦°à§‡à¦œà¦¾à¦²à§à¦Ÿ à¦ªà§‡à¦¤à§‡ à¦¨à¦¿à¦°à§à¦¬à¦¾à¦šà¦¨ à¦•à¦®à¦¿à¦¶à¦¨à§‡à¦° à¦“à¦¯à¦¼à§‡à¦¬à¦¸à¦¾à¦‡à¦Ÿ à¦­à¦¿à¦œà¦¿à¦Ÿ à¦•à¦°à§à¦¨' 
+                  ? 'নির্বাচনের রেজাল্ট পেতে নির্বাচন কমিশনের ওয়েবসাইট ভিজিট করুন' 
                   : 'Visit Election Commission website for results'}
               </span>
             </div>
@@ -91,7 +91,7 @@ const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
           {!isCounting && countdown && (
             <div className="mb-4 flex flex-col items-center animate-in fade-in slide-in-from-bottom-2">
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                {lang === 'bn' ? 'à¦­à§‹à¦Ÿ à¦—à§à¦°à¦¹à¦£ à¦¶à§‡à¦· à¦¹à¦¤à§‡ à¦¬à¦¾à¦•à¦¿' : 'Voting ends in'}
+                {lang === 'bn' ? 'ভোট গ্রহণ শেষ হতে বাকি' : 'Voting ends in'}
               </span>
               <div className="bg-bd-red/10 text-bd-red px-3 py-1 rounded-xl font-black text-lg tabular-nums border border-bd-red/20 shadow-sm">
                 {countdown}
@@ -108,13 +108,13 @@ const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
             <i className={`fa-solid ${isCounting ? 'fa-square-poll-vertical' : 'fa-check-to-slot'} text-xl`}></i>
             <span>
               {isCounting 
-                ? (lang === 'bn' ? 'à¦­à§‹à¦Ÿ à¦—à¦£à¦¨à¦¾ à¦šà¦²à¦›à§‡' : 'Vote counting in progress')
-                : (lang === 'bn' ? 'à¦­à§‹à¦Ÿ à¦—à§à¦°à¦¹à¦£ à¦šà¦²à¦›à§‡' : 'Voting is live')
+                ? (lang === 'bn' ? 'ভোট গণনা চলছে' : 'Vote counting in progress')
+                : (lang === 'bn' ? 'ভোট গ্রহণ চলছে' : 'Voting is live')
               }
             </span>
           </div>
           <p className="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-widest">
-            {lang === 'bn' ? 'à¦¬à¦¾à¦‚à¦²à¦¾à¦¦à§‡à¦¶ à¦¸à§à¦Ÿà§à¦¯à¦¾à¦¨à§à¦¡à¦¾à¦°à§à¦¡ à¦Ÿà¦¾à¦‡à¦®' : 'Bangladesh Standard Time'}
+            {lang === 'bn' ? 'বাংলাদেশ স্ট্যান্ডার্ড টাইম' : 'Bangladesh Standard Time'}
           </p>
         </div>
       </div>
@@ -277,7 +277,7 @@ const MapCard: React.FC<{
           {name}
         </h4>
         <span className="text-[7px] font-black text-bd-green uppercase tracking-widest mt-auto">
-          {lang === 'bn' ? 'à¦®à§à¦¯à¦¾à¦ª à¦¦à§‡à¦–à§à¦¨' : 'VIEW MAP'}
+          {lang === 'bn' ? 'ম্যাপ দেখুন' : 'VIEW MAP'}
         </span>
       </a>
     </div>
@@ -308,7 +308,7 @@ const LoginGate: React.FC<{
           onClick={() => setLang(lang === 'bn' ? 'en' : 'bn')} 
           className="px-2 py-0.5 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded text-[9px] font-black border border-slate-200 dark:border-slate-700 shadow-sm active:scale-95 transition-all"
         >
-          {lang === 'bn' ? 'EN' : 'à¦¬à¦¾à¦‚'}
+          {lang === 'bn' ? 'EN' : 'বাং'}
         </button>
         <button 
           onClick={toggleDark} 
@@ -339,7 +339,7 @@ const LoginGate: React.FC<{
                 onChange={(e) => setPass(e.target.value)}
                 disabled={failedCount >= 3}
                 className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 focus:border-bd-green focus:outline-none transition text-center text-lg font-black tracking-[0.2em] text-slate-900 dark:text-white"
-                placeholder="â€¢â€¢â€¢â€¢"
+                placeholder="••••"
                 autoFocus
               />
               <button 
@@ -357,21 +357,21 @@ const LoginGate: React.FC<{
                   <div className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-2xl p-3 text-left">
                     <p className="text-red-700 dark:text-red-400 text-[10px] font-black mb-3 text-center leading-snug px-1">
                       {lang === 'bn' 
-                        ? 'à¦†à¦ªà¦¨à¦¿ à§© à¦¬à¦¾à¦° à¦­à§à¦² à¦ªà¦¾à¦¸à¦“à§Ÿà¦¾à¦°à§à¦¡ à¦¦à¦¿à§Ÿà§‡à¦›à§‡à¦¨à¥¤ à¦ªà¦¾à¦¸à¦“à§Ÿà¦¾à¦°à§à¦¡ à¦œà¦¾à¦¨à¦¤à§‡ à¦•à¦² à¦•à¦°à§à¦¨:' 
+                        ? 'আপনি ৩ বার ভুল পাসওয়ার্ড দিয়েছেন। পাসওয়ার্ড জানতে কল করুন:' 
                         : 'You have entered the wrong password 3 times. To get the password, please call:'}
                     </p>
                     <div className="grid grid-cols-1 gap-2">
                       <a href="tel:+8801765112560" className="flex items-center justify-between bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-red-100 dark:border-red-900 shadow-sm active:scale-95 transition group">
                         <div className="flex flex-col flex-1 min-w-0 pr-2">
                            <span className="text-[10px] font-black text-slate-900 dark:text-white group-hover:text-bd-green transition truncate">
-                             {lang === 'bn' ? 'à¦®à§‹à¦ƒ à¦¶à¦¾à¦•à¦¿à¦² à¦¹à§‹à¦¸à§‡à¦¨' : 'Md. Shakil Hossain'}
+                             {lang === 'bn' ? 'মোঃ শাকিল হোসেন' : 'Md. Shakil Hossain'}
                            </span>
                            <span className="text-[7px] font-bold text-slate-500 dark:text-slate-400 leading-tight">
-                             {lang === 'bn' ? 'à¦¬à¦¿à¦ªà¦¿-à§¯à§ªà§¨à§©à§¨à§ªà§¬à§­à§©à§«, à¦à¦¸à¦†à¦‡ (à¦¨à¦¿à¦ƒ), à¦¸à¦¦à¦° à¦¥à¦¾à¦¨à¦¾' : 'BP-9423246735, SI, Sadar Thana'}
+                             {lang === 'bn' ? 'বিপি-৯৪২৩২৪৬৭৩৫, এসআই (নিঃ), সদর থানা' : 'BP-9423246735, SI, Sadar Thana'}
                            </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[8px] font-black text-bd-green uppercase">{lang === 'bn' ? 'à¦•à¦² à¦•à¦°à§à¦¨' : 'Call Now'}</span>
+                          <span className="text-[8px] font-black text-bd-green uppercase">{lang === 'bn' ? 'কল করুন' : 'Call Now'}</span>
                           <div className="w-8 h-8 rounded-full bg-bd-green text-white flex items-center justify-center shadow-md shrink-0">
                             <i className="fa-solid fa-phone text-[10px]"></i>
                           </div>
@@ -383,11 +383,11 @@ const LoginGate: React.FC<{
                              {lang === 'bn' ? 'MRM WEB' : 'MRM WEB'}
                            </span>
                            <span className="text-[7px] font-bold text-slate-500 dark:text-slate-400 leading-tight">
-                             {lang === 'bn' ? 'à¦•à¦¾à¦°à¦¿à¦—à¦°à¦¿ à¦¸à¦¹à¦¾à§Ÿà¦¤à¦¾' : 'Technical Support'}
+                             {lang === 'bn' ? 'কারিগরি সহায়তা' : 'Technical Support'}
                            </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[8px] font-black text-bd-red uppercase">{lang === 'bn' ? 'à¦•à¦² à¦•à¦°à§à¦¨' : 'Call Now'}</span>
+                          <span className="text-[8px] font-black text-bd-red uppercase">{lang === 'bn' ? 'কল করুন' : 'Call Now'}</span>
                           <div className="w-8 h-8 rounded-full bg-bd-red text-white flex items-center justify-center shadow-md shrink-0">
                             <i className="fa-solid fa-headset text-[10px]"></i>
                           </div>
@@ -468,12 +468,12 @@ const Header: React.FC<{
           <i className="fa-solid fa-vote-yea text-lg text-bd-red"></i>
           <div className="flex flex-col">
             <h1 className="font-bold text-[10px] sm:text-xs leading-tight uppercase tracking-tighter">{t('title')}</h1>
-            <p className="text-[8px] opacity-60">{t('chapai')} {lang === 'bn' ? 'à¦œà§‡à¦²à¦¾ à¦ªà§à¦²à¦¿à¦¶' : 'District Police'}</p>
+            <p className="text-[8px] opacity-60">{t('chapai')} {lang === 'bn' ? 'জেলা পুলিশ' : 'District Police'}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={() => setLang(lang === 'bn' ? 'en' : 'bn')} className="px-2 py-0.5 bg-white/10 rounded text-[9px] font-bold border border-white/10 hover:bg-white/20">
-            {lang === 'bn' ? 'EN' : 'à¦¬à¦¾à¦‚'}
+            {lang === 'bn' ? 'EN' : 'বাং'}
           </button>
           <button onClick={toggleDark} className="w-6 h-6 flex items-center justify-center bg-white/10 rounded-full border border-white/10">
             {isDark ? <i className="fa-solid fa-sun text-yellow-300 text-[9px]"></i> : <i className="fa-solid fa-moon text-slate-100 text-[9px]"></i>}
