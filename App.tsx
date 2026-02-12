@@ -5,37 +5,14 @@ import { Language, Seat, SeatStatsData } from './types';
 // --- Live Status Component (Centered & Large) ---
 
 const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
-  const [isCounting, setIsCounting] = useState(false);
   const [time, setTime] = useState(new Date());
-  const [countdown, setCountdown] = useState('');
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const now = new Date();
-      setTime(now);
-      
-      // Logic: After 5:00 PM (17:00), status changes to Counting
-      const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 17, 0, 0);
-      const diff = targetTime.getTime() - now.getTime();
-
-      if (now.getHours() >= 17) {
-        setIsCounting(true);
-        setCountdown('');
-      } else {
-        setIsCounting(false);
-        if (diff > 0) {
-          const h = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
-          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-          const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
-          const cdStr = `${h}:${m}:${s}`;
-          setCountdown(lang === 'bn' ? cdStr.replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[parseInt(d)]) : cdStr);
-        } else {
-          setCountdown('');
-        }
-      }
+      setTime(new Date());
     }, 1000);
     return () => clearInterval(timer);
-  }, [lang]);
+  }, []);
 
   const formatTime = (date: Date) => {
     const h = date.getHours().toString().padStart(2, '0');
@@ -62,58 +39,51 @@ const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
         <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-bd-red/5 rounded-full blur-3xl"></div>
 
         {/* Large Digital Clock */}
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="text-5xl sm:text-7xl font-black text-slate-900 dark:text-white tabular-nums tracking-tighter drop-shadow-sm mb-2 font-mono">
+        <div className="relative z-10 flex flex-col items-center w-full">
+          <div className="text-5xl sm:text-7xl font-black text-slate-900 dark:text-white tabular-nums tracking-tighter drop-shadow-sm mb-6 font-mono">
             {formatTime(time)}
           </div>
           
-          {/* Election Commission Website Link (Replaced Live Badge) */}
-          <a 
-            href="http://103.183.38.66:81" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="group flex flex-col items-center gap-1.5 mb-6 px-4 py-2 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-inner hover:bg-bd-green/5 transition-all active:scale-95"
-          >
-            <div className="flex items-center gap-2">
-              <i className="fa-solid fa-square-poll-vertical text-bd-green group-hover:animate-bounce"></i>
-              <span className="text-[10px] sm:text-[11px] font-black text-slate-700 dark:text-slate-300">
-                {lang === 'bn' 
-                  ? 'নির্বাচনের রেজাল্ট পেতে নির্বাচন কমিশনের ওয়েবসাইট ভিজিট করুন' 
-                  : 'Visit Election Commission website for results'}
-              </span>
-            </div>
-            <span className="text-[8px] font-bold text-bd-green underline uppercase tracking-widest opacity-70 group-hover:opacity-100">
-              ecs.gov.bd
-            </span>
-          </a>
-
-          {/* Countdown Timer */}
-          {!isCounting && countdown && (
-            <div className="mb-4 flex flex-col items-center animate-in fade-in slide-in-from-bottom-2">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                {lang === 'bn' ? 'ভোট গ্রহণ শেষ হতে বাকি' : 'Voting ends in'}
-              </span>
-              <div className="bg-bd-red/10 text-bd-red px-3 py-1 rounded-xl font-black text-lg tabular-nums border border-bd-red/20 shadow-sm">
-                {countdown}
+          {/* Result Link Section */}
+          <div className="flex flex-col gap-3 w-full mb-4">
+            {/* Link 1: EC Website */}
+            <a 
+              href="http://103.183.38.66:81/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center gap-1.5 px-4 py-3 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 shadow-lg hover:border-bd-green hover:shadow-bd-green/10 transition-all active:scale-95"
+            >
+              <div className="flex items-center gap-2 text-center">
+                <i className="fa-solid fa-square-poll-vertical text-bd-green text-lg"></i>
+                <span className="text-[10px] sm:text-[11px] font-black text-slate-700 dark:text-slate-300 leading-tight">
+                  {lang === 'bn' 
+                    ? 'নির্বাচনের রেজাল্ট পেতে বাংলাদেশ নির্বাচন কমিশনের ওয়েবসাইট ভিজিট করুন' 
+                    : 'Visit Bangladesh Election Commission website for results'}
+                </span>
               </div>
-            </div>
-          )}
-        </div>
+              <span className="text-[8px] font-bold text-bd-green/60 tracking-widest uppercase">103.183.38.66:81</span>
+            </a>
 
-        {/* Status Text Area */}
-        <div className="relative z-10 w-full h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-800 to-transparent mb-4"></div>
-        
-        <div className="relative z-10 flex flex-col items-center">
-          <div className={`flex items-center gap-2 text-base sm:text-xl font-black ${isCounting ? 'text-bd-red' : 'text-bd-green'} animate-pulse-soft`}>
-            <i className={`fa-solid ${isCounting ? 'fa-square-poll-vertical' : 'fa-check-to-slot'} text-xl`}></i>
-            <span>
-              {isCounting 
-                ? (lang === 'bn' ? 'ভোট গণনা চলছে' : 'Vote counting in progress')
-                : (lang === 'bn' ? 'ভোট গ্রহণ চলছে' : 'Voting is live')
-              }
-            </span>
+            {/* Link 2: Gonovote Result */}
+            <a 
+              href="http://103.183.38.66:81/gonovote/result" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center gap-1.5 px-4 py-3 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 shadow-lg hover:border-bd-red hover:shadow-bd-red/10 transition-all active:scale-95"
+            >
+              <div className="flex items-center gap-2 text-center">
+                <i className="fa-solid fa-users-viewfinder text-bd-red text-lg"></i>
+                <span className="text-[10px] sm:text-[11px] font-black text-slate-700 dark:text-slate-300 leading-tight">
+                  {lang === 'bn' 
+                    ? 'গণ ভোটের রেজাল্ট পেতে ভিজিট করুন' 
+                    : 'Visit to get Public Vote results'}
+                </span>
+              </div>
+              <span className="text-[8px] font-bold text-bd-red/60 tracking-widest uppercase">/gonovote/result</span>
+            </a>
           </div>
-          <p className="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-widest">
+
+          <p className="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 mt-2 uppercase tracking-widest">
             {lang === 'bn' ? 'বাংলাদেশ স্ট্যান্ডার্ড টাইম' : 'Bangladesh Standard Time'}
           </p>
         </div>
@@ -443,7 +413,6 @@ const LoginGate: React.FC<{
         </div>
       </div>
 
-      {/* Fixed: changed 'handleInstall' to 'onInstall' as that is the prop name in this scope */}
       <InstallBanner deferredPrompt={deferredPrompt} onInstall={onInstall} lang={lang} />
     </div>
   );
@@ -699,7 +668,6 @@ export default function App() {
                         url={area.url} 
                         lang={lang} 
                         isFavorite={favorites.includes(area.id)}
-                        /* Fixed: 'id' was undefined, changed to 'area.id' */
                         onToggleFavorite={() => handleToggleFavorite(area.id)}
                       />
                     ))}
