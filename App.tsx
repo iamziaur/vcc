@@ -69,7 +69,7 @@ const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
           
           {/* Election Commission Website Link (Replaced Live Badge) */}
           <a 
-            href="https://result.ecs.gov.bd" 
+            href="https://ecs.gov.bd" 
             target="_blank" 
             rel="noopener noreferrer"
             className="group flex flex-col items-center gap-1.5 mb-6 px-4 py-2 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-inner hover:bg-bd-green/5 transition-all active:scale-95"
