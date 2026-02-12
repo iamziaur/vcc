@@ -82,10 +82,6 @@ const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
               <span className="text-[8px] font-bold text-bd-red/60 tracking-widest uppercase">/gonovote/result</span>
             </a>
           </div>
-
-          <p className="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 mt-2 uppercase tracking-widest">
-            {lang === 'bn' ? 'বাংলাদেশ স্ট্যান্ডার্ড টাইম' : 'Bangladesh Standard Time'}
-          </p>
         </div>
       </div>
     </div>
