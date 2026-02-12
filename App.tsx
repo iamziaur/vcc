@@ -2,28 +2,110 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { TRANSLATIONS, SEATS, EMERGENCY_CONTACTS, GUIDANCE_OFFICERS, DISTRICT_TOTAL_STATS } from './constants';
 import { Language, Seat, SeatStatsData } from './types';
 
-// --- Live Status Component ---
+// --- Live Status Component (Centered & Large) ---
 
 const LiveStatus: React.FC<{ lang: Language }> = ({ lang }) => {
+  const [isCounting, setIsCounting] = useState(false);
+  const [time, setTime] = useState(new Date());
+  const [countdown, setCountdown] = useState('');
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date();
+      setTime(now);
+      
+      // Logic: After 5:00 PM (17:00), status changes to Counting
+      const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 17, 0, 0);
+      const diff = targetTime.getTime() - now.getTime();
+
+      if (now.getHours() >= 17) {
+        setIsCounting(true);
+        setCountdown('');
+      } else {
+        setIsCounting(false);
+        if (diff > 0) {
+          const h = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
+          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+          const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+          const cdStr = `${h}:${m}:${s}`;
+          setCountdown(lang === 'bn' ? cdStr.replace(/\d/g, d => 'à§¦à§§à§¨à§©à§ªà§«à§¬à§­à§®à§¯'[parseInt(d)]) : cdStr);
+        } else {
+          setCountdown('');
+        }
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [lang]);
+
+  const formatTime = (date: Date) => {
+    const h = date.getHours().toString().padStart(2, '0');
+    const m = date.getMinutes().toString().padStart(2, '0');
+    const s = date.getSeconds().toString().padStart(2, '0');
+    const timeStr = `${h}:${m}:${s}`;
+    return lang === 'bn' ? timeStr.replace(/\d/g, d => 'à§¦à§§à§¨à§©à§ªà§«à§¬à§­à§®à§¯'[parseInt(d)]) : timeStr;
+  };
+
   return (
-    <div className="flex flex-col items-end mb-4 animate-in fade-in slide-in-from-right-4 duration-700">
-      <img 
-        src="https://election.prothomalo.com/web-theme/prothomalo.svg" 
-        alt="Election Logo" 
-        className="h-6 sm:h-8 mb-1 grayscale dark:invert opacity-80"
-      />
-      <div className="flex flex-col items-end">
-        <div className="flex gap-2 items-center bg-slate-100 dark:bg-slate-800/50 px-2 py-1 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">
-          <div className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bd-red opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-bd-red"></span>
+    <div className="flex flex-col items-center justify-center py-8 mb-6 animate-in zoom-in duration-700">
+      {/* Central Interactive Card */}
+      <div className="glass-card w-full max-w-[340px] sm:max-w-md p-8 rounded-[3rem] shadow-2xl border-4 border-bd-green/20 dark:border-slate-800 flex flex-col items-center justify-center relative overflow-hidden">
+        
+        {/* Enlarge & Position Logo as Background */}
+        <img 
+          src="https://election.prothomalo.com/web-theme/prothomalo.svg" 
+          alt="Election Logo" 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-32 sm:h-48 opacity-[0.07] dark:opacity-[0.1] pointer-events-none grayscale dark:invert transition-all duration-1000"
+        />
+
+        {/* Background Glow Decor */}
+        <div className="absolute -top-10 -right-10 w-32 h-32 bg-bd-green/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-bd-red/5 rounded-full blur-3xl"></div>
+
+        {/* Large Digital Clock */}
+        <div className="relative z-10 flex flex-col items-center">
+          <div className="text-5xl sm:text-7xl font-black text-slate-900 dark:text-white tabular-nums tracking-tighter drop-shadow-sm mb-2 font-mono">
+            {formatTime(time)}
           </div>
-          <span className="text-[10px] font-black text-bd-red uppercase tracking-wider">LIVE</span>
+          
+          {/* Live Badge Interaction */}
+          <div className="flex gap-2 items-center bg-white dark:bg-slate-900 px-4 py-1.5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 shadow-lg mb-4 active:scale-95 transition-transform cursor-default">
+            <div className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bd-red opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-bd-red"></span>
+            </div>
+            <span className="text-xs sm:text-sm font-black text-bd-red uppercase tracking-[0.2em]">LIVE</span>
+          </div>
+
+          {/* Countdown Timer */}
+          {!isCounting && countdown && (
+            <div className="mb-4 flex flex-col items-center animate-in fade-in slide-in-from-bottom-2">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                {lang === 'bn' ? 'à¦­à§‹à¦Ÿ à¦—à§à¦°à¦¹à¦£ à¦¶à§‡à¦· à¦¹à¦¤à§‡ à¦¬à¦¾à¦•à¦¿' : 'Voting ends in'}
+              </span>
+              <div className="bg-bd-red/10 text-bd-red px-3 py-1 rounded-xl font-black text-lg tabular-nums border border-bd-red/20 shadow-sm">
+                {countdown}
+              </div>
+            </div>
+          )}
         </div>
-        <p className="text-[10px] font-black text-slate-700 dark:text-slate-300 mt-1 flex items-center gap-1">
-          <i className="fa-solid fa-check-to-slot text-bd-green"></i>
-          {lang === 'bn' ? 'ভোট গ্রহণ চলছে' : 'Voting is live'}
-        </p>
+
+        {/* Status Text Area */}
+        <div className="relative z-10 w-full h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-800 to-transparent mb-4"></div>
+        
+        <div className="relative z-10 flex flex-col items-center">
+          <div className={`flex items-center gap-2 text-base sm:text-xl font-black ${isCounting ? 'text-bd-red' : 'text-bd-green'} animate-pulse-soft`}>
+            <i className={`fa-solid ${isCounting ? 'fa-square-poll-vertical' : 'fa-check-to-slot'} text-xl`}></i>
+            <span>
+              {isCounting 
+                ? (lang === 'bn' ? 'à¦­à§‹à¦Ÿ à¦—à¦£à¦¨à¦¾ à¦šà¦²à¦›à§‡' : 'Vote counting in progress')
+                : (lang === 'bn' ? 'à¦­à§‹à¦Ÿ à¦—à§à¦°à¦¹à¦£ à¦šà¦²à¦›à§‡' : 'Voting is live')
+              }
+            </span>
+          </div>
+          <p className="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-widest">
+            {lang === 'bn' ? 'à¦¬à¦¾à¦‚à¦²à¦¾à¦¦à§‡à¦¶ à¦¸à§à¦Ÿà§à¦¯à¦¾à¦¨à§à¦¡à¦¾à¦°à§à¦¡ à¦Ÿà¦¾à¦‡à¦®' : 'Bangladesh Standard Time'}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -155,7 +237,43 @@ const InstallBanner: React.FC<{ deferredPrompt: any; onInstall: () => void; lang
   );
 };
 
-// --- Login Page Component ---
+// --- Map Card Component ---
+
+const MapCard: React.FC<{ 
+  name: string; 
+  url: string; 
+  lang: Language; 
+  isFavorite: boolean; 
+  onToggleFavorite: () => void;
+}> = ({ name, url, lang, isFavorite, onToggleFavorite }) => {
+  return (
+    <div className="glass-card rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col h-full group relative">
+      <button 
+        onClick={(e) => {
+          e.preventDefault();
+          onToggleFavorite();
+        }}
+        className={`absolute top-2 right-2 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all ${isFavorite ? 'bg-yellow-400 text-slate-900 shadow-md scale-110' : 'bg-black/10 text-white hover:bg-black/20'}`}
+      >
+        <i className={`${isFavorite ? 'fa-solid' : 'fa-regular'} fa-star text-[10px]`}></i>
+      </button>
+
+      <a href={url} target="_blank" rel="noopener noreferrer" className="flex-1 p-3 flex flex-col items-center text-center justify-center gap-2 group-active:scale-95 transition-transform">
+        <div className="w-10 h-10 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-bd-red group-hover:scale-110 transition-transform shadow-inner">
+          <i className="fa-solid fa-map-location-dot text-lg"></i>
+        </div>
+        <h4 className="text-[10px] sm:text-xs font-black text-slate-800 dark:text-slate-100 leading-tight">
+          {name}
+        </h4>
+        <span className="text-[7px] font-black text-bd-green uppercase tracking-widest mt-auto">
+          {lang === 'bn' ? 'à¦®à§à¦¯à¦¾à¦ª à¦¦à§‡à¦–à§à¦¨' : 'VIEW MAP'}
+        </span>
+      </a>
+    </div>
+  );
+};
+
+// --- Login Gate Component ---
 
 const LoginGate: React.FC<{ 
   onLogin: (pass: string) => void; 
@@ -179,7 +297,7 @@ const LoginGate: React.FC<{
           onClick={() => setLang(lang === 'bn' ? 'en' : 'bn')} 
           className="px-2 py-0.5 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded text-[9px] font-black border border-slate-200 dark:border-slate-700 shadow-sm active:scale-95 transition-all"
         >
-          {lang === 'bn' ? 'EN' : 'বাং'}
+          {lang === 'bn' ? 'EN' : 'à¦¬à¦¾à¦‚'}
         </button>
         <button 
           onClick={toggleDark} 
@@ -210,7 +328,7 @@ const LoginGate: React.FC<{
                 onChange={(e) => setPass(e.target.value)}
                 disabled={failedCount >= 3}
                 className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 focus:border-bd-green focus:outline-none transition text-center text-lg font-black tracking-[0.2em] text-slate-900 dark:text-white"
-                placeholder="••••"
+                placeholder="â€¢â€¢â€¢â€¢"
                 autoFocus
               />
               <button 
@@ -228,21 +346,21 @@ const LoginGate: React.FC<{
                   <div className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-2xl p-3 text-left">
                     <p className="text-red-700 dark:text-red-400 text-[10px] font-black mb-3 text-center leading-snug px-1">
                       {lang === 'bn' 
-                        ? 'আপনি ৩ বার ভুল পাসওয়ার্ড দিয়েছেন। পাসওয়ার্ড জানতে কল করুন:' 
+                        ? 'à¦†à¦ªà¦¨à¦¿ à§© à¦¬à¦¾à¦° à¦­à§à¦² à¦ªà¦¾à¦¸à¦“à§Ÿà¦¾à¦°à§à¦¡ à¦¦à¦¿à§Ÿà§‡à¦›à§‡à¦¨à¥¤ à¦ªà¦¾à¦¸à¦“à§Ÿà¦¾à¦°à§à¦¡ à¦œà¦¾à¦¨à¦¤à§‡ à¦•à¦² à¦•à¦°à§à¦¨:' 
                         : 'You have entered the wrong password 3 times. To get the password, please call:'}
                     </p>
                     <div className="grid grid-cols-1 gap-2">
                       <a href="tel:+8801765112560" className="flex items-center justify-between bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-red-100 dark:border-red-900 shadow-sm active:scale-95 transition group">
                         <div className="flex flex-col flex-1 min-w-0 pr-2">
                            <span className="text-[10px] font-black text-slate-900 dark:text-white group-hover:text-bd-green transition truncate">
-                             {lang === 'bn' ? 'মোঃ শাকিল হোসেন' : 'Md. Shakil Hossain'}
+                             {lang === 'bn' ? 'à¦®à§‹à¦ƒ à¦¶à¦¾à¦•à¦¿à¦² à¦¹à§‹à¦¸à§‡à¦¨' : 'Md. Shakil Hossain'}
                            </span>
                            <span className="text-[7px] font-bold text-slate-500 dark:text-slate-400 leading-tight">
-                             {lang === 'bn' ? 'বিপি-৯৪২৩২৪৬৭৩৫, এসআই (নিঃ), সদর থানা' : 'BP-9423246735, SI, Sadar Thana'}
+                             {lang === 'bn' ? 'à¦¬à¦¿à¦ªà¦¿-à§¯à§ªà§¨à§©à§¨à§ªà§¬à§­à§©à§«, à¦à¦¸à¦†à¦‡ (à¦¨à¦¿à¦ƒ), à¦¸à¦¦à¦° à¦¥à¦¾à¦¨à¦¾' : 'BP-9423246735, SI, Sadar Thana'}
                            </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[8px] font-black text-bd-green uppercase">{lang === 'bn' ? 'কল করুন' : 'Call Now'}</span>
+                          <span className="text-[8px] font-black text-bd-green uppercase">{lang === 'bn' ? 'à¦•à¦² à¦•à¦°à§à¦¨' : 'Call Now'}</span>
                           <div className="w-8 h-8 rounded-full bg-bd-green text-white flex items-center justify-center shadow-md shrink-0">
                             <i className="fa-solid fa-phone text-[10px]"></i>
                           </div>
@@ -254,11 +372,11 @@ const LoginGate: React.FC<{
                              {lang === 'bn' ? 'MRM WEB' : 'MRM WEB'}
                            </span>
                            <span className="text-[7px] font-bold text-slate-500 dark:text-slate-400 leading-tight">
-                             {lang === 'bn' ? 'কারিগরি সহায়তা' : 'Technical Support'}
+                             {lang === 'bn' ? 'à¦•à¦¾à¦°à¦¿à¦—à¦°à¦¿ à¦¸à¦¹à¦¾à§Ÿà¦¤à¦¾' : 'Technical Support'}
                            </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[8px] font-black text-bd-red uppercase">{lang === 'bn' ? 'কল করুন' : 'Call Now'}</span>
+                          <span className="text-[8px] font-black text-bd-red uppercase">{lang === 'bn' ? 'à¦•à¦² à¦•à¦°à§à¦¨' : 'Call Now'}</span>
                           <div className="w-8 h-8 rounded-full bg-bd-red text-white flex items-center justify-center shadow-md shrink-0">
                             <i className="fa-solid fa-headset text-[10px]"></i>
                           </div>
@@ -338,12 +456,12 @@ const Header: React.FC<{
           <i className="fa-solid fa-vote-yea text-lg text-bd-red"></i>
           <div className="flex flex-col">
             <h1 className="font-bold text-[10px] sm:text-xs leading-tight uppercase tracking-tighter">{t('title')}</h1>
-            <p className="text-[8px] opacity-60">{t('chapai')} {lang === 'bn' ? 'জেলা পুলিশ' : 'District Police'}</p>
+            <p className="text-[8px] opacity-60">{t('chapai')} {lang === 'bn' ? 'à¦œà§‡à¦²à¦¾ à¦ªà§à¦²à¦¿à¦¶' : 'District Police'}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={() => setLang(lang === 'bn' ? 'en' : 'bn')} className="px-2 py-0.5 bg-white/10 rounded text-[9px] font-bold border border-white/10 hover:bg-white/20">
-            {lang === 'bn' ? 'EN' : 'বাং'}
+            {lang === 'bn' ? 'EN' : 'à¦¬à¦¾à¦‚'}
           </button>
           <button onClick={toggleDark} className="w-6 h-6 flex items-center justify-center bg-white/10 rounded-full border border-white/10">
             {isDark ? <i className="fa-solid fa-sun text-yellow-300 text-[9px]"></i> : <i className="fa-solid fa-moon text-slate-100 text-[9px]"></i>}
@@ -379,39 +497,6 @@ const Header: React.FC<{
          ))}
       </div>
     </header>
-  );
-};
-
-const MapCard: React.FC<{ 
-  name: string; 
-  url: string; 
-  lang: Language; 
-  isFavorite: boolean; 
-  onToggleFavorite: () => void;
-}> = ({ name, url, isFavorite, onToggleFavorite }) => {
-  const handleRedirect = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).closest('.fav-btn')) return;
-    window.open(url, '_blank');
-  };
-
-  return (
-    <div 
-      onClick={handleRedirect}
-      className="glass-card w-full p-2 rounded-xl flex items-center justify-between hover:border-bd-green/50 dark:hover:border-slate-700 transition group text-left cursor-pointer border-2 relative overflow-hidden"
-    >
-      <div className="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
-        <div className="shrink-0 w-7 h-7 rounded-lg bg-bd-green/10 flex items-center justify-center text-bd-green group-hover:text-blue-600 dark:group-hover:text-white group-hover:bg-blue-50 dark:group-hover:bg-slate-800 transition-all duration-300">
-          <i className="fa-solid fa-map-location-dot text-xs"></i>
-        </div>
-        <span className="font-black text-slate-900 dark:text-slate-50 text-[11px] sm:text-xs leading-tight truncate pr-1">{name}</span>
-      </div>
-      <button 
-        onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }}
-        className={`fav-btn w-8 h-8 shrink-0 flex items-center justify-center rounded-lg transition-all ${isFavorite ? 'bg-yellow-100 text-yellow-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-yellow-500'}`}
-      >
-        <i className={`fa-star ${isFavorite ? 'fa-solid' : 'fa-regular'} text-xs`}></i>
-      </button>
-    </div>
   );
 };
 
@@ -539,7 +624,7 @@ export default function App() {
       />
       
       <main className="max-w-xl mx-auto px-3 pt-4">
-        {/* Replaced Countdown with Live Status */}
+        {/* Central Dashboard Widget */}
         <LiveStatus lang={lang} />
 
         <div className="mb-4 p-3 bg-bd-red text-white rounded-xl shadow-md relative overflow-hidden flex items-center justify-between">
